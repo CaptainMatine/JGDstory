@@ -6,6 +6,9 @@ const EMPTY_DATA = {
   followups: [], // [{ id, parentIndex, question, answer, savedAt }]
   customEntries: [], // [{ id, question, answer, savedAt }]
   story: null, // { chapters: [{ title, text }], generatedAt } or null
+  cardSeen: false, // whether the one-time welcome card has been shown/closed
+  emailPromptSeen: false, // whether the one-time "want an email address?" prompt has been shown
+  emailRequestUsername: null, // the username Jack requested, if any (without the @jgdunn.com)
 };
 
 export default async (req) => {
@@ -51,6 +54,18 @@ export default async (req) => {
 
     if (body.story !== undefined) {
       existing.story = body.story;
+    }
+
+    if (body.cardSeen !== undefined) {
+      existing.cardSeen = body.cardSeen;
+    }
+
+    if (body.emailPromptSeen !== undefined) {
+      existing.emailPromptSeen = body.emailPromptSeen;
+    }
+
+    if (body.emailRequestUsername !== undefined) {
+      existing.emailRequestUsername = body.emailRequestUsername;
     }
 
     await store.setJSON(key, existing);
